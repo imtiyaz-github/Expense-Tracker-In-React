@@ -3,10 +3,12 @@
   flex-direction: row;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   font-size: 1.1rem;
-  background-color: aliceblue;
+  border-bottom: 1px solid black;
+  justify-content: space-between;
+  
 }
 .navbar nav {
-  display: inline;
+  display: flex;
   justify-content: space-around;
 }
 ul {
@@ -14,7 +16,10 @@ ul {
   list-style: none;
   justify-content: flex-start;
   margin: 10px;
+  justify-content: space-around;
 }
 li {
   padding-left: 30px;
+  display: flex;
+  justify-content: space-between;
 }

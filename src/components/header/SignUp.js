@@ -1,74 +1,95 @@
-import React from "react";
-import { useRef, useState } from "react";
+import React, { useContext } from "react";
+import { useState } from "react";
 import classes from "./SignUp.module.css";
+import AuthContext from "../store/AuthContext";
 
 function Signup() {
-  const emailInputRef = useRef();
-  const passwordInputRef = useRef();
-  const confirmpasswordInputRef = useRef();
-
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  // const [isCursorAllow, setisCursorAllow] = useState(true);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [conpass, setconfPass] = useState("");
+
+  const ctx = useContext(AuthContext);
 
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
   };
 
+  const emailChangeHandler = (e) => {
+    setEmail(e.target.value);
+  };
+  const passwordChangeHandler = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const confpasswordChangeHandler = (e) => {
+    setconfPass(e.target.value);
+    // setisCursorAllow(false);
+  };
+
   const submitHandler = (event) => {
     event.preventDefault();
-
-    const enteredEmail = emailInputRef.current.value;
-    const enteredPassword = passwordInputRef.current.value;
-    const enteredConfirmPassword = confirmpasswordInputRef.current.value;
 
     //optional:add validation
 
     setIsLoading(true);
     let url;
-    if (isLogin) {
-      url =
-        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCs1zdQMstoPmRG4AjfS4JwQfNMW7HsMBE";
+    if (!isLogin && password !== conpass) {
+      return alert("password is not same");
     } else {
-      url =
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCs1zdQMstoPmRG4AjfS4JwQfNMW7HsMBE";
-    }
+      if (isLogin) {
+        url =
+          "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCs1zdQMstoPmRG4AjfS4JwQfNMW7HsMBE";
+      } else {
+        url =
+          "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCs1zdQMstoPmRG4AjfS4JwQfNMW7HsMBE";
+      }
 
-    fetch(url, {
-      method: "POST",
-      body: JSON.stringify({
-        email: enteredEmail,
-        password: enteredPassword,
-        confirmpassword: enteredConfirmPassword,
-        returnSecureToken: true,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        setIsLoading(false);
-        if (res.ok) {
-          return res.json();
-        } else {
-          return res.json().then((data) => {
-            let errorMessage = "Authentication failed";
-            // if(data && data.error && data.error.message){
-            //     errorMessage=data.error.message
-            // }
-
-            throw new Error(errorMessage);
+      fetch(url, {
+        method: "POST",
+        body: JSON.stringify({
+          email: email,
+          password: password,
+          returnSecureToken: true,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => {
+          setIsLoading(false);
+          const resp = res.json();
+          resp.then((resp) => {
+            console.log(resp);
+            localStorage.setItem("idToken", resp.idToken);
           });
-        }
-      })
-      .then((data) => {
-        console.log(data);
-        // AuthCtx.login(data.idToken);
-        alert("Successfully login")
-      })
-      .catch((err) => {
-        console.log("aaa failed");
-        alert(err.message);
-      });
+          if (res.ok) {
+            console.log("Succhefully signed up");
+            ctx.login();
+
+            alert("succesefully updated");
+          } else {
+            return res.json().then((data) => {
+              let errorMessage = "Authentication failed";
+
+              console.log(errorMessage);
+
+              alert("failed");
+            });
+          }
+        })
+        .then((data) => {
+          console.log(data);
+          ctx.login(data.idToken);
+          alert("Successfully login");
+        })
+        .catch((err) => {
+          console.log("aaa failed");
+          alert(err.message);
+        });
+    }
   };
 
   return (
@@ -77,7 +98,13 @@ function Signup() {
       <form onSubmit={submitHandler}>
         <div className={classes.control}>
           <label htmlFor="email">Your Email</label>
-          <input type="email" id="email" required ref={emailInputRef} />
+          <input
+            type="email"
+            id="email"
+            required
+            onChange={emailChangeHandler}
+            value={email}
+          />
         </div>
         <div className={classes.control}>
           <label htmlFor="password">Your Password</label>
@@ -85,7 +112,8 @@ function Signup() {
             type="password"
             id="password"
             required
-            ref={passwordInputRef}
+            value={password}
+            onChange={passwordChangeHandler}
           />
         </div>
         <div className={classes.control}>
@@ -93,9 +121,10 @@ function Signup() {
           <input
             type="password"
             placeholder="Confirm password"
-            ref={confirmpasswordInputRef}
             required
             id="password"
+            value={conpass}
+            onChange={confpasswordChangeHandler}
           />
         </div>
         <div className={classes.actions}>
