@@ -1,26 +1,17 @@
-import Signup from "./components/header/SignUp";
-import Header from "./components/header/Header";
-import Product from "./components/product/Product";
-import { useState } from "react";
+// import Signup from "./components/Signup";
+// import Header from "./components/header/Header";
+// import React, { Routes, Route, BrowserRouter } from "react-router-dom";
+import Home from "./components/header/Home";
+// import { Switch } from "react-router-dom";
 
 function App() {
-  const [isSignedUp, setIsSignedUp] = useState(false);
-
-  const handleSignUpComplete = () => {
-    setIsSignedUp(true);
-  };
-
   return (
     <>
-     <Header/>
     
-    {!isSignedUp ? (
+      <Home/>
       
-      <Signup onSignupcomplete={handleSignUpComplete}/>
-    ) : (
-    <Product />
-    )}
-       
+      
+
     </>
   );
 }
