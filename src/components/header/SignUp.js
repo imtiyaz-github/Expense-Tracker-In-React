@@ -1,15 +1,15 @@
-import React, { useContext } from "react";
-import { useState } from "react";
+import React, { useContext, useState, Fragment } from "react";
 import classes from "./SignUp.module.css";
 import AuthContext from "../store/AuthContext";
+import { useHistory } from "react-router-dom";
 
 function Signup() {
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  // const [isCursorAllow, setisCursorAllow] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [conpass, setconfPass] = useState("");
+  const history = useHistory("");
 
   const ctx = useContext(AuthContext);
 
@@ -26,7 +26,6 @@ function Signup() {
 
   const confpasswordChangeHandler = (e) => {
     setconfPass(e.target.value);
-    // setisCursorAllow(false);
   };
 
   const submitHandler = (event) => {
@@ -66,10 +65,9 @@ function Signup() {
             localStorage.setItem("idToken", resp.idToken);
           });
           if (res.ok) {
-            console.log("Succhefully signed up");
+            console.log("Successfully signed up");
             ctx.login();
-
-            alert("succesefully updated");
+            history.replace("/welcomescreen");
           } else {
             return res.json().then((data) => {
               let errorMessage = "Authentication failed";
@@ -82,7 +80,6 @@ function Signup() {
         })
         .then((data) => {
           console.log(data);
-          ctx.login(data.idToken);
           alert("Successfully login");
         })
         .catch((err) => {
@@ -93,55 +90,57 @@ function Signup() {
   };
 
   return (
-    <section className={classes.head}>
-      <h1>{isLogin ? "Login" : "Sign Up"}</h1>
-      <form onSubmit={submitHandler}>
-        <div className={classes.control}>
-          <label htmlFor="email">Your Email</label>
-          <input
-            type="email"
-            id="email"
-            required
-            onChange={emailChangeHandler}
-            value={email}
-          />
-        </div>
-        <div className={classes.control}>
-          <label htmlFor="password">Your Password</label>
-          <input
-            type="password"
-            id="password"
-            required
-            value={password}
-            onChange={passwordChangeHandler}
-          />
-        </div>
-        <div className={classes.control}>
-          <label htmlFor="phone">Confirm Password</label>
-          <input
-            type="password"
-            placeholder="Confirm password"
-            required
-            id="password"
-            value={conpass}
-            onChange={confpasswordChangeHandler}
-          />
-        </div>
-        <div className={classes.actions}>
-          {!isLoading && (
-            <button>{isLogin ? "Login" : "Create Account"}</button>
-          )}
-          {isLoading && <p>Sending request..!</p>}
-          <button
-            type="button"
-            className={classes.toggle}
-            onClick={switchAuthModeHandler}
-          >
-            {isLogin ? "Create new account" : "Login with existing account"}
-          </button>
-        </div>
-      </form>
-    </section>
+    <Fragment>
+      <section className={classes.head}>
+        <h1>{isLogin ? "Login" : "Sign Up"}</h1>
+        <form onSubmit={submitHandler}>
+          <div className={classes.control}>
+            <label htmlFor="email">Your Email</label>
+            <input
+              type="email"
+              id="email"
+              required
+              onChange={emailChangeHandler}
+              value={email}
+            />
+          </div>
+          <div className={classes.control}>
+            <label htmlFor="password">Your Password</label>
+            <input
+              type="password"
+              id="password"
+              required
+              value={password}
+              onChange={passwordChangeHandler}
+            />
+          </div>
+          <div className={classes.control}>
+            <label htmlFor="phone">Confirm Password</label>
+            <input
+              type="password"
+              placeholder="Confirm password"
+              required
+              id="password"
+              value={conpass}
+              onChange={confpasswordChangeHandler}
+            />
+          </div>
+          <div className={classes.actions}>
+            {!isLoading && (
+              <button>{isLogin ? "Login" : "Create Account"}</button>
+            )}
+            {isLoading && <p>Sending request..!</p>}
+            <button
+              type="button"
+              className={classes.toggle}
+              onClick={switchAuthModeHandler}
+            >
+              {isLogin ? "Create new account" : "Login with existing account"}
+            </button>
+          </div>
+        </form>
+      </section>
+    </Fragment>
   );
 }
 

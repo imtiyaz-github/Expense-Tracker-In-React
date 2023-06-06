@@ -1,25 +1,27 @@
 import Signup from "./components/header/SignUp";
-import { useContext, Fragment } from "react";
-// import AuthProvider from "../src/components/store/AuthProvider";
-import Header from "./components/header/Header";
-import AuthContext from "./components/store/AuthContext";
+import WelcomeScreen from "./components/header/WelcomeScreen";
+import { Route } from "react-router-dom";
+import { Fragment } from "react";
+import Profile from "./components/header/Profile";
 // import Navigation from "./components/header/Navigation";
-import Profile from "./components/Profile";
-// import { Route, Routes } from "react-router-dom";
-import { Route, Routes } from "react-router-dom";
-
-// import AuthProvider from "./components/store/AuthProvider";
+import { Switch } from "react-router-dom";
 
 function App() {
-  const ctx = useContext(AuthContext);
+  // const ctx = useContext(AuthContext);
 
   return (
-   
     <Fragment>
-      <Routes>
-        <Route path="/signup" elment={!ctx.isLogin ? <Signup /> : <Header />} />
-        <Route path="/" element={!ctx.isLogin ? <Signup /> : <Profile />} />
-      </Routes>
+      <Switch>
+        <Route path="/" exact>
+          <Signup />
+        </Route>
+        <Route path="/welcomescreen" exact>
+          <WelcomeScreen />
+        </Route>
+        <Route path="/welcomescreen/profile">
+          <Profile />
+        </Route>
+      </Switch>
     </Fragment>
   );
 }

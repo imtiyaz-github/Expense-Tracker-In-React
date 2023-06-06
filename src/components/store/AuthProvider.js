@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import AuthContext from "./AuthContext";
 
 function AuthProvider(props) {
-  // const [userIsLogin, setuserIsLogin] = useState(intailLogin);
   const intailLogin = localStorage.getItem("idToken");
   const [userIsLogin, setuserIsLogin] = useState(intailLogin);
 
