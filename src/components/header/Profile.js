@@ -16,6 +16,7 @@ function Profile() {
     const enteredProfile = inputProfileRef.current.value;
 
     //optional:add validation
+    
 
     fetch(
       "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyCs1zdQMstoPmRG4AjfS4JwQfNMW7HsMBE",

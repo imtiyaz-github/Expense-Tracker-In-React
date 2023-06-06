@@ -5,6 +5,7 @@ import { Fragment } from "react";
 import Profile from "./components/header/Profile";
 // import Navigation from "./components/header/Navigation";
 import { Switch } from "react-router-dom";
+import Resetpassword from "./components/header/Resetpassword";
 
 function App() {
   // const ctx = useContext(AuthContext);
@@ -20,6 +21,9 @@ function App() {
         </Route>
         <Route path="/welcomescreen/profile">
           <Profile />
+        </Route>
+        <Route path="/resetpassword" exact>
+          <Resetpassword />
         </Route>
       </Switch>
     </Fragment>

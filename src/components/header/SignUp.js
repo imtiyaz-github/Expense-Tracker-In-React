@@ -9,7 +9,7 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [conpass, setconfPass] = useState("");
-  const history = useHistory("");
+  const history = useHistory();
 
   const ctx = useContext(AuthContext);
 
@@ -26,6 +26,11 @@ function Signup() {
 
   const confpasswordChangeHandler = (e) => {
     setconfPass(e.target.value);
+  };
+
+  const resetpasswordHandler = () => {
+    history.push("/resetpassword");
+    console.log("fogetted password");
   };
 
   const submitHandler = (event) => {
@@ -73,7 +78,6 @@ function Signup() {
               let errorMessage = "Authentication failed";
 
               console.log(errorMessage);
-
               alert("failed");
             });
           }
@@ -125,11 +129,21 @@ function Signup() {
               onChange={confpasswordChangeHandler}
             />
           </div>
+
           <div className={classes.actions}>
             {!isLoading && (
               <button>{isLogin ? "Login" : "Create Account"}</button>
             )}
             {isLoading && <p>Sending request..!</p>}
+
+            <div>
+              {isLogin && (
+                <button type="submit" onClick={resetpasswordHandler}>
+                  Forget Password?
+                </button>
+              )}
+            </div>
+
             <button
               type="button"
               className={classes.toggle}

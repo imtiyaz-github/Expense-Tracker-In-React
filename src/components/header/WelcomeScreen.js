@@ -1,8 +1,8 @@
 import React from "react";
 import { useContext, Fragment } from "react";
-import { Link, useHistory} from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import AuthContext from "../store/AuthContext";
-import classes from "./SignUp.module.css";
+import classes from "./WelcomeScreen.module.css";
 
 const WelcomeScreen = () => {
   const ctx = useContext(AuthContext);
@@ -11,6 +11,7 @@ const WelcomeScreen = () => {
   const verifyEmailHandler = () => {
     fetch(
       "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyCs1zdQMstoPmRG4AjfS4JwQfNMW7HsMBE",
+
       {
         method: "POST",
         headers: {
@@ -23,15 +24,15 @@ const WelcomeScreen = () => {
         }),
       }
     )
-      .then(async (res) => {
+      .then((res) => {
         if (res.ok) {
           return res.json();
         } else {
-          const data = await res.json();
-          console.log(data);
-          if (data.error.message) {
-            alert(data.error.message);
-          }
+          return res.json().then((data) => {
+            if (data.error.messsge) {
+              alert(data.error.messsge);
+            }
+          });
         }
       })
       .then((data) => {
