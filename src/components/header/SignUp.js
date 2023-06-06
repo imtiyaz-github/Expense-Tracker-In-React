@@ -122,7 +122,6 @@ function Signup() {
             <label htmlFor="phone">Confirm Password</label>
             <input
               type="password"
-              placeholder="Confirm password"
               required
               id="password"
               value={conpass}
@@ -135,6 +134,7 @@ function Signup() {
               <button>{isLogin ? "Login" : "Create Account"}</button>
             )}
             {isLoading && <p>Sending request..!</p>}
+
 
             <div>
               {isLogin && (

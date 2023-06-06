@@ -3,20 +3,21 @@ import WelcomeScreen from "./components/header/WelcomeScreen";
 import { Route } from "react-router-dom";
 import { Fragment } from "react";
 import Profile from "./components/header/Profile";
-// import Navigation from "./components/header/Navigation";
 import { Switch } from "react-router-dom";
 import Resetpassword from "./components/header/Resetpassword";
+import AddExpenses from "./components/header/AddExpenses";
 
 function App() {
-  // const ctx = useContext(AuthContext);
-
   return (
     <Fragment>
       <Switch>
         <Route path="/" exact>
           <Signup />
         </Route>
-        <Route path="/welcomescreen" exact>
+        <Route path="/addexpenses" exact>
+          <AddExpenses />
+        </Route>
+        <Route path="/welcomescreen" >
           <WelcomeScreen />
         </Route>
         <Route path="/welcomescreen/profile">
@@ -25,6 +26,7 @@ function App() {
         <Route path="/resetpassword" exact>
           <Resetpassword />
         </Route>
+      
       </Switch>
     </Fragment>
   );
