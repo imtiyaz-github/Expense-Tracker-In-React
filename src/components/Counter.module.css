@@ -1,18 +1,38 @@
-.header {
+.main {
   text-align: center;
-  background-color: bisque;
-  display: flex;
-  justify-content: center;
+  margin-top: 50px;
 }
+
+.header {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
 .counter {
-  text-align: center;
-  font-size: 2.2rem;
-  color: rgb(83, 11, 184);
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
 .button {
   display: flex;
   justify-content: center;
-  padding: 12px 12px;
-  margin-left: 10px;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #337ab7;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #135492;
+}
+
+button:active {
+  background-color: #0b3550;
 }
