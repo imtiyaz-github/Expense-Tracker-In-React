@@ -8,7 +8,6 @@ function Signup() {
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [conpass, setconfPass] = useState("");
   const history = useHistory();
 
   const ctx = useContext(AuthContext);
@@ -24,9 +23,6 @@ function Signup() {
     setPassword(e.target.value);
   };
 
-  const confpasswordChangeHandler = (e) => {
-    setconfPass(e.target.value);
-  };
 
   const resetpasswordHandler = () => {
     history.push("/resetpassword");
@@ -40,8 +36,8 @@ function Signup() {
 
     setIsLoading(true);
     let url;
-    if (!isLogin && password !== conpass) {
-      return alert("password is not same");
+    if (!isLogin && password) {
+      return alert("Enter a Valid details")
     } else {
       if (isLogin) {
         url =
@@ -87,7 +83,7 @@ function Signup() {
           alert("Successfully login");
         })
         .catch((err) => {
-          console.log("aaa failed");
+          console.log("faild to login");
           alert(err.message);
         });
     }
@@ -118,23 +114,12 @@ function Signup() {
               onChange={passwordChangeHandler}
             />
           </div>
-          <div className={classes.control}>
-            <label htmlFor="phone">Confirm Password</label>
-            <input
-              type="password"
-              required
-              id="password"
-              value={conpass}
-              onChange={confpasswordChangeHandler}
-            />
-          </div>
 
           <div className={classes.actions}>
             {!isLoading && (
               <button>{isLogin ? "Login" : "Create Account"}</button>
             )}
             {isLoading && <p>Sending request..!</p>}
-
 
             <div>
               {isLogin && (

@@ -1,19 +1,36 @@
+import Signup from "./components/header/SignUp";
+import WelcomeScreen from "./components/StaringPage/WelcomeScreen";
+import { Route } from "react-router-dom";
 import { Fragment } from "react";
-import Auth from "./components/Auth";
-import Counter from "./components/Counter";
-import Header from "./components/Header";
-import { useSelector } from "react-redux";
-import UserProfile from "./components/UserProfile";
+import Profile from "./components/StaringPage/Profile";
+import { Switch } from "react-router-dom";
+import Resetpassword from "./components/header/Resetpassword";
+// import AddExpenses from "./components/StaringPage/AddExpenses";
+
 
 function App() {
-  const isAuth = useSelector((state) => state.auth.isAuthenticated);
-
   return (
     <Fragment>
-      <Header />
-      {!isAuth && <Auth />}
-      {isAuth && <UserProfile />}
-      <Counter />
+      <Switch>
+        <Route path="/" exact>
+          <Signup />
+        </Route>
+        {/* <Route path="/addexpenses">
+          <AddExpenses/>
+        </Route> */}
+        <Route path="/welcomescreen" exact>
+          <WelcomeScreen />
+        </Route>
+        <Route path="/welcomescreen/profile" >
+          <Profile />
+        </Route>
+        <Route path="/resetpassword" exact>
+          <Resetpassword />
+        </Route> 
+       
+      </Switch>
+
+      
     </Fragment>
   );
 }

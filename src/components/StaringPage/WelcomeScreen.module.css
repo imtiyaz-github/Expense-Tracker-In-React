@@ -1,0 +1,40 @@
+
+.main {
+    width: 95vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: auto;
+    margin-top: 20px;
+    border-bottom: 2px solid black;
+  }
+  
+  .right {
+    padding: 5px 5px;
+    background-color: rgb(242, 199, 144);
+    border-radius: 5px;
+  }
+  .verifyEmail {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px auto;
+    padding: 6px 9px;
+    background-color: #00f2ff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .logout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+    margin-top: 0;
+    padding: 6px 9px;
+    background-color: #00f2ff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
