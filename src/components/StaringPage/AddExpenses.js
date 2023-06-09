@@ -7,21 +7,12 @@ const AddExpenses = (props) => {
   const inputCatRef = useRef();
 
   useEffect(() => {
-    const fetchExpensedData = async () => {
-      if (props.editingId) {
-        const response = await fetch(
-          `https://http-authentication1-default-rtdb.firebaseio.com/expense/${props.editingId.id}.json`
-        );
-
-        const data = await response.json();
-        inputPricRef.current.value = data.amount;
-        inputDesRef.current.value = data.description;
-        inputCatRef.current.value = data.category;
-      }
-    };
-
-    fetchExpensedData();
-  }, [props.editingId]);
+    if (props.editItem) {
+      inputPricRef.current.value = props.editItem.amount;
+      inputDesRef.current.value = props.editItem.description;
+      inputCatRef.current.value = props.editItem.category;
+    }
+  }, [props.editItem]);
 
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -36,21 +27,29 @@ const AddExpenses = (props) => {
       category: enteredCat,
     };
 
-    props.onSaveData(newExpense);
     console.log(newExpense);
 
-    const response = await fetch(
-      "https://http-authentication1-default-rtdb.firebaseio.com/expense.json",
-      {
-        method: "POST",
-        body: JSON.stringify(newExpense),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const data = await response.json();
-    console.log(data);
+    try {
+      const response = await fetch(
+        "https://http-authentication1-default-rtdb.firebaseio.com/expense.json",
+        {
+          method: "POST",
+          body: JSON.stringify(newExpense),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+
+    inputPricRef.current.value = "";
+    inputDesRef.current.value = "";
+    inputCatRef.current.value = "";
   };
 
   return (
@@ -70,7 +69,8 @@ const AddExpenses = (props) => {
             <select id="category" ref={inputCatRef}>
               <option value="food">Food</option>
               <option value="petrol">Petrol</option>
-              <option value="salary">Salary</option>
+              <option value="mobile">Mobiles</option>
+              <option value="electronics">Electricals</option>
             </select>
           </div>
 

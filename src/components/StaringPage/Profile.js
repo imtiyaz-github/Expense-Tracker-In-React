@@ -1,13 +1,16 @@
 import React, { useRef } from "react";
-import classes from './Profile.module.css';
-import AuthContext from "../store/AuthContext";
-import { useContext } from "react";
+import classes from "./Profile.module.css";
+// import AuthContext from "../store/AuthContext";
+import { useSelector } from "react-redux";
+// import { useContext } from "react";
 
 function Profile() {
   const inputNameRef = useRef();
   const inputProfileRef = useRef();
 
-  const ctx = useContext(AuthContext);
+  // const ctx = useContext(AuthContext);
+
+  const token = useSelector((state) => state.authentication.token);
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -16,14 +19,13 @@ function Profile() {
     const enteredProfile = inputProfileRef.current.value;
 
     //optional:add validation
-    
 
     fetch(
       "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyCs1zdQMstoPmRG4AjfS4JwQfNMW7HsMBE",
       {
         method: "POST",
         body: JSON.stringify({
-          idToken: ctx.token,
+          idToken: token,
           displayName: enteredName,
           photoUrl: enteredProfile,
           returnSecureToken: true,
