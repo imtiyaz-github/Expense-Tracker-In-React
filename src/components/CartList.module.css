@@ -1,0 +1,18 @@
+.cart {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  text-align: center;
+}
+.cartlist {
+  font-weight: bold;
+  display: block;
+  text-align: start;
+  margin-right: 2rem;
+}
+.test {
+  text-align: start;
+}
