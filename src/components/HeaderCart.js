@@ -1,21 +1,23 @@
 import React from "react";
-import classes from "./Header.module.css";
-import { useDispatch } from "react-redux";
+import classes from "./HeaderCart.module.css";
+import { useDispatch, useSelector } from "react-redux";
 import { uiActions } from "../store/ui-slice";
 
 function HeaderCart() {
   const dispatch = useDispatch();
+  const cartQuantity = useSelector((state) => state.cart.totalQuantity);
 
-  const ToggleCartHandler = () => {
+  const toggleCartHandler = () => {
     dispatch(uiActions.toggle());
   };
 
   return (
-    <button className={classes.button} onClick={ToggleCartHandler}>
+    <button className={classes.button} onClick={toggleCartHandler}>
       <span>My Cart</span>
-      <span className={classes.badge}> 0</span>
+      <span className={classes.badge}>{cartQuantity}</span>
     </button>
   );
-}
+};
+
 
 export default HeaderCart;

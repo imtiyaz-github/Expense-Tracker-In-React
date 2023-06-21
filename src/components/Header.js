@@ -1,18 +1,20 @@
 import React from "react";
 import HeaderCart from "./HeaderCart";
+import classes from "./Header.module.css";
 
-function Header() {
+const Header = (props) => {
   return (
-    <div>
+    <header className={classes.header}>
+      <h1>ReduxCart</h1>
       <nav>
         <ul>
           <li>
-            <HeaderCart />
+            <HeaderCart/>
           </li>
         </ul>
       </nav>
-    </div>
+    </header>
   );
-}
+};
 
 export default Header;

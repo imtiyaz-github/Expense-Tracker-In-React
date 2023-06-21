@@ -1,18 +1,17 @@
-import Header from "./components/Header";
 import { useSelector } from "react-redux";
-import CartList from "./components/CartList";
-// import HeaderCart from "./components/HeaderCart";
+
 import Cart from "./components/Cart";
-import { Fragment } from "react";
+import Products from "./components/Products";
+import Layout from "./components/Layout";
 
 function App() {
   const showCart = useSelector((state) => state.ui.cartIsVisible);
+
   return (
-    <Fragment>
-      <Header />
+    <Layout>
       {showCart && <Cart />}
-      <CartList/>
-    </Fragment>
+      <Products />
+    </Layout>
   );
 }
 

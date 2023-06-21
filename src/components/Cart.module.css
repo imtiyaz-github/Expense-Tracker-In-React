@@ -1,30 +1,16 @@
 .cart {
-  flex-direction: column;
-  display: flex;
-  justify-content: center;
-  padding: 20px;
+  max-width: 30rem;
+  background-color: #313131;
+  color: white;
+}
 
-  max-width: 100%;
-  align-items: center;
+.cart h2 {
+  font-size: 1.25rem;
+  margin: 0.5rem 0;
 }
-.test {
-  display: flex;
-  flex: auto;
-  flex-direction: column;
-}
-.increase {
-  background-color: rgb(155, 100, 28);
-  padding: 2px 3px;
-  box-sizing: border-box;
-}
-.decrease {
-  background-color: rgb(155, 100, 28);
-  padding: 2px 3px;
-  box-sizing: border-box;
-}
-.increase:hover {
-  background-color: rgb(197, 125, 31);
-}
-.decrease:hover {
-  background-color: rgb(197, 125, 31);
+
+.cart ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }

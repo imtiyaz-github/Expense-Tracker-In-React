@@ -1,28 +1,19 @@
-nav {
+.header {
+  width: 100%;
+  height: 5rem;
+  padding: 0 10%;
   display: flex;
-  justify-content: space-around;
-  float: right;
-  margin: 0;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #252424;
 }
-li {
-  list-style: none;
-  padding: 10px 10px;
+
+.header h1 {
   color: white;
 }
 
-button {
-  padding: 10px 20px;
-  margin-right: 10px;
-  background-color: forestgreen;
-  border: none;
-  border-radius: 10px;
-  font-size: 1.2rem;
-  cursor: pointer;
-  font-family: sans-serif;
-  margin-bottom: 20px;
-}
-
-button:hover,
-button:active {
-  background-color: rgb(56, 204, 56);
+.header ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
