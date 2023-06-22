@@ -3,23 +3,26 @@ import ProductItem from "./ProductItem";
 
 const DUMMY_PRODUCTS = [
   {
-    id: 'p1',
-    price: 6,
-    title: 'My First Book',
-    description: 'The first book I ever wrote',
+    id: "1",
+    title: "Laptop 300GB SSD, Intel Core i5-8th",
+    description: "very good product",
+    imageURL: "https://images.unsplash.com/photo-149674",
+    price: 40000,
   },
+
   {
-    id: 'p2',
-    price: 5,
-    title: 'My Second Book',
-    description: 'The second book I ever wrote',
+    id: "2",
+    title: "Laptop 500GB SSD,intel core i5-10th",
+    description: "Very Useful Product",
+    imageURL: "https://images.unsplash.com/photo-150034",
+    price: 20000,
   },
 ];
 
 const Products = (props) => {
   return (
     <section className={classes.products}>
-      <h2>Buy your favorite products</h2>
+      <h2>Buy Your Favorite Products</h2>
       <ul>
         {DUMMY_PRODUCTS.map((product) => (
           <ProductItem
