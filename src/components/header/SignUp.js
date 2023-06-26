@@ -30,6 +30,7 @@ function Signup() {
     const enteredPassword = passwordInputref.current.value;
 
     //optional:add validation
+    
 
     setIsLoading(true);
     let url;

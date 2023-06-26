@@ -1,14 +1,10 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import classes from "./Profile.module.css";
-// import AuthContext from "../store/AuthContext";
 import { useSelector } from "react-redux";
-// import { useContext } from "react";
 
 function Profile() {
   const inputNameRef = useRef();
   const inputProfileRef = useRef();
-
-  // const ctx = useContext(AuthContext);
 
   const token = useSelector((state) => state.authentication.token);
 
@@ -52,6 +48,45 @@ function Profile() {
         alert("failed to update profile");
       });
   };
+
+  const gettingData = () => {
+    fetch(
+      "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyCs1zdQMstoPmRG4AjfS4JwQfNMW7HsMBE",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ idToken: token }),
+      }
+    )
+      .then((res) => {
+        console.log("Getting data", res);
+        if (res.ok) {
+          return res.json();
+        } else {
+          return res.json().then((data) => {
+            if (data.error.message) {
+              alert(data.error.message);
+            }
+          });
+        }
+      })
+      .then((data) => {
+        console.log("...", data);
+        if (data.users[0].displayName) {
+          inputNameRef.current.value = data.users[0].displayName;
+          inputProfileRef.current.value = data.users[0].photoUrl;
+        } else {
+          inputNameRef.current.value = "";
+          inputProfileRef.current.value = "";
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(gettingData, []);
 
   return (
     <section className={classes.head}>

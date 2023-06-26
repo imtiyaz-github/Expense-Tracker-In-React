@@ -1,40 +1,87 @@
-
 .main {
-    width: 95vw;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: auto;
-    margin-top: 20px;
-    border-bottom: 2px solid black;
-  }
-  
-  .right {
-    padding: 5px 5px;
-    background-color: rgb(242, 199, 144);
-    border-radius: 5px;
-  }
-  .verifyEmail {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 30px auto;
-    padding: 6px 9px;
-    background-color: #00f2ff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  .logout {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px auto;
-    margin-top: 0;
-    padding: 6px 9px;
-    background-color: #00f2ff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
+  width: 95vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border-bottom: 2px solid black;
+}
+
+.right {
+  padding: 5px 5px;
+  background-color: rgb(242, 199, 144);
+  border-radius: 5px;
+}
+.verifyEmail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px auto;
+  padding: 6px 9px;
+  background-color: #00f2ff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.logout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+  margin-top: 0;
+  padding: 6px 9px;
+  background-color: #00f2ff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.dark {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 20px;
+}
+.toggle-button {
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.toggle-button.light {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.toggle-button.dark {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.premium {
+  padding: 10px 20px;
+  margin-right: 20px;
+  margin-left: 20px;
+  background-color: darkorange;
+  border: 2px solid darkorange;
+  border-radius: 5px;
+}
+.toggle {
+  margin-right: 20px;
+  margin-left: 10px;
+  border-radius: 2px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  background-color: darkslategrey;
+  color: #ccc;
+}
+.download {
+  padding: 12px 20px;
+  border: none;
+  margin-right: 10px;
+  color: white;
+  background-color: dodgerblue;
+  cursor: pointer;
+}
+.download:hover {
+  background-color: royalblue;
+}

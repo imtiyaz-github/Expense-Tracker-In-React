@@ -1,16 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import { Provider } from "react-redux";
 import App from "./App";
-import store from './store/index'
-
+import { BrowserRouter } from "react-router-dom";
+import store from "./components/store/Index";
+import { Provider } from "react-redux";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+const darkTheme = localStorage.getItem("darktheme") === "true";
+console.log(darkTheme);
+
 root.render(
-  <Provider store={store}>
-    <App />
-  </Provider>
+  <div className={darkTheme ? "dark" : null}>
+    <BrowserRouter>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </BrowserRouter>
+  </div>
 );
-
-

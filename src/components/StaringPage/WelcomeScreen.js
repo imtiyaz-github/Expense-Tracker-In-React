@@ -1,21 +1,27 @@
-import React, {useState } from "react";
-import {Fragment } from "react";
+import React, { useEffect, useState } from "react";
+import { Fragment } from "react";
 import { Link, useHistory } from "react-router-dom";
-// import AuthContext from "../store/AuthContext";
-import { useDispatch, useSelector } from "react-redux/es/exports";
+import { useDispatch, useSelector } from "react-redux";
 import classes from "./WelcomeScreen.module.css";
 import ExpensesList from "./ExpensesList";
 import AddExpenses from "./AddExpenses";
 import { authActions } from "../store/Authentication";
+import { expenseActions } from "../store/Expense";
+import { saveAs } from "file-saver";
 
 const WelcomeScreen = () => {
   // const ctx = useContext(AuthContext);
 
   const history = useHistory();
-  // const [items, setItems] = useState([]);
   const [editingId, setEdit] = useState(null);
 
+  const recevedData = useSelector((state) => state.expense?.data);
+
   const dispatch = useDispatch();
+
+  const premium = useSelector((state) => state.expense.showPremium);
+  let [isPremiumClicked, setIsPremiunClicked] = useState(false);
+
   const token = useSelector((state) => state.authentication.token);
 
   const verifyEmailHandler = () => {
@@ -52,49 +58,46 @@ const WelcomeScreen = () => {
   };
 
   const logoutHandler = () => {
-    // ctx.logout();
     dispatch(authActions.logout());
     history.replace("/");
   };
 
-  // const saveExpenseDataHandler = (expense) => {
-  //   setItems((prev) => [...prev, expense]);
-  // };
+  const changeToDark = () => {
+    dispatch(expenseActions.togggle());
+  };
 
-  // const getExpense = useCallback(async () => {
-  //   const response = await fetch(
-  //     "https://http-authentication1-default-rtdb.firebaseio.com/expense.json"
-  //   );
+  const downloadFile = () => {
+    const csv =
+      "Category,Description,Amount\n" +
+      Object.values(recevedData)
+        .map(
+          ({ category, description, amount }) =>
+            `${category},${description},${amount}`
+        )
+        .join("\n");
 
-  //   const data = await response.json();
+    //create a new blob with csv data
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
 
-  //   console.log(data);
+    //save the blob as a file with name expensese.csv
+    saveAs(blob, "expenses.csv");
+  };
 
-  //   const loadedExpenses = [];
+  useEffect(() => {
+    const premiumClickedStatus = localStorage.getItem("isPremiumClicked");
+    if (premiumClickedStatus) {
+      setIsPremiunClicked(JSON.parse(premiumClickedStatus));
+    }
+  }, []);
 
-  //   for (const key in data) {
-  //     loadedExpenses.push({
-  //       id: key,
-  //       amount: data[key].amount,
-  //       description: data[key].description,
-  //       category: data[key].category,
-  //     });
-  //   }
-  //   setItems(loadedExpenses);
-  // }, []);
+  useEffect(() => {
+    localStorage.setItem("isPremiumCliked", JSON.stringify(isPremiumClicked));
+  }, [isPremiumClicked]);
 
-  // useEffect(() => {
-  //   getExpense();
-  // }, [getExpense]);
-
-  // const deleteHandler = (id) => {
-  //   console.log("deleted", id);
-
-  //   setItems((prev) => {
-  //     const updatedExpense = prev.filter((item) => item.id !== id);
-  //     return updatedExpense;
-  //   });
-  // };
+  const activePremium = () => {
+    localStorage.setItem("isPremiumCliked", true);
+    window.location.reload();
+  };
 
   const editHandler = (id) => {
     console.log(" recevide edited id", id);
@@ -105,21 +108,39 @@ const WelcomeScreen = () => {
     <Fragment>
       <div className={classes.main}>
         <div className={classes.left}>Welcome to expance tracker!!!!</div>
+        <button
+          type="submit"
+          onClick={verifyEmailHandler}
+          className={classes.verifyEmail}
+        >
+          Verify Email
+        </button>
+        {premium && (
+          <button className={classes.premium} onClick={activePremium}>
+            Active Premium
+          </button>
+        )}
+        <button className={classes.logout} onClick={logoutHandler}>
+          Logout
+        </button>
+        {premium && isPremiumClicked && (
+          <button className={classes.toggle} onClick={changeToDark}>
+            Toggle dark/light Theme
+          </button>
+        )}
+
+        {premium && isPremiumClicked && (
+          <button className={classes.download} onClick={downloadFile}>
+            Dowload Expense
+          </button>
+        )}
+
         <div className={classes.right}>
           Your profile is incomplete.
           <Link to="/welcomescreen/profile">Complete now</Link>
         </div>
       </div>
-      <button
-        type="submit"
-        onClick={verifyEmailHandler}
-        className={classes.verifyEmail}
-      >
-        Verify Email
-      </button>
-      <button className={classes.logout} onClick={logoutHandler}>
-        Logout
-      </button>
+
       <AddExpenses editingId={editingId} />
       <ExpensesList onEdit={editHandler} />
     </Fragment>

@@ -1,38 +1,54 @@
+
 import React, { useEffect, useState } from "react";
 import classes from "./ExpensesList.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch} from "react-redux";
 import { expenseActions } from "../store/Expense";
 
 const ExpenseList = (props) => {
   const [receivedExpense, setReceivedExpense] = useState([]);
   const dispatch = useDispatch();
 
+
+
+
   useEffect(() => {
     fetch(
       "https://http-authentication1-default-rtdb.firebaseio.com/expense.json"
     )
-      .then((response) => {
+      .then(async (response) => {
         if (response.ok) {
           return response.json();
         } else {
-          return response.json().then((data) => {
-            if (data.error.message) {
-              alert(data.error.message);
-            }
-          });
+          const data = await response.json();
+          if (data.error.message) {
+            alert(data.error.message);
+          }
         }
       })
       .then((data) => {
         console.log("data ", data);
         setReceivedExpense(data);
         dispatch(expenseActions.recivedData(data));
+      },[dispatch]);
+
+    let totalAmount = 0;
+    if (receivedExpense) {
+      Object.values(receivedExpense).forEach((expense) => {
+        totalAmount += +expense.amount;
       });
-  }, [dispatch]);
+    }
 
-  const deleteHandler = async (id) => {
+    if (totalAmount > 1000) {
+      dispatch(expenseActions.Premium());
+    } else {
+      dispatch(expenseActions.notPremium());
+    }
+  }, [dispatch, receivedExpense]);
+
+  const deleteHandler = async (key) => {
+    console.log("key", key);
     const response = await fetch(
-      `https://http-authentication1-default-rtdb.firebaseio.com/expense${id}.json`,
-
+      `https://http-authentication1-default-rtdb.firebaseio.com/expense${key}.json`,
       {
         method: "DELETE",
       }
@@ -41,11 +57,13 @@ const ExpenseList = (props) => {
     if (response.ok) {
       setReceivedExpense((prevExpenses) => {
         const updatedExpenses = { ...prevExpenses };
-        delete updatedExpenses[id];
+        delete updatedExpenses[key];
         return updatedExpenses;
       });
     }
-  };
+  }
+
+
 
   const editHandler = async (key) => {
     const response = await fetch(
@@ -65,15 +83,25 @@ const ExpenseList = (props) => {
     deleteHandler(key);
   };
 
+  let totalAmount = 0;
+
+  if (receivedExpense) {
+    Object.values(receivedExpense).forEach((expense) => {
+      totalAmount += +expense.amount;
+    });
+  } else {
+    totalAmount = 0;
+  }
+
   return (
     <React.Fragment>
       <ul className={classes.ul}>
         {receivedExpense ? (
           Object.keys(receivedExpense).map((key) => (
-            <li key={key}>
-              <span>{receivedExpense[key].amount}/-</span>
-              <span>{receivedExpense[key].description}</span>
-              <span>{receivedExpense[key].category}</span>
+            <ul key={key}>
+              <li>{receivedExpense[key].amount}/-</li>
+              <li>{receivedExpense[key].description}</li>
+              <li>{receivedExpense[key].category}</li>
               <div className={classes.actions}>
                 <button
                   className={classes.edit}
@@ -88,7 +116,7 @@ const ExpenseList = (props) => {
                   Delete
                 </button>
               </div>
-            </li>
+            </ul>
           ))
         ) : (
           <h2
@@ -101,6 +129,9 @@ const ExpenseList = (props) => {
           </h2>
         )}
       </ul>
+      <div>
+        <h1>Total Amount:{totalAmount}</h1>
+      </div>
     </React.Fragment>
   );
 };
